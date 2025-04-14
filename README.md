@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Hello') {
             steps {
-                container('sfdx') //here container name is the name of the container you specified in the pod template created in step 4. {
+                container('sfdx') { //here container name is the name of the container you specified in the pod template created in step 4. 
                     echo 'Hello World'
                     sh "sf --version"
                 }
