@@ -1,0 +1,50 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: jenkins       # The namespace where Jenkins runs
+  name: jenkins-svc-user-role
+rules:
+  # Pods - Jenkins needs permission to manage pods
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["create", "get", "list", "watch", "delete", "update"]
+
+  # Pods - Jenkins need to run functionlity in the jenkins pod
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+
+  # Services - Jenkins may need to create and view services
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list", "create", "update", "delete"]
+
+  # ConfigMaps - Jenkins might use ConfigMaps for configuration
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "list", "create", "update", "delete"]
+
+  # Secrets - Jenkins may need to manage secrets for credentials
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "create", "update"]
+
+  # Events - Jenkins might need access to view events in the namespace
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["get", "list"]
+
+  # ServiceAccounts - Jenkins needs permission to interact with ServiceAccounts
+  - apiGroups: [""]
+    resources: ["serviceaccounts"]
+    verbs: ["get", "list"]
+    
+  # Namespaces - Jenkins needs to view namespaces (optional)
+  - apiGroups: [""]
+    resources: ["namespaces"]
+    verbs: ["list", "get"]
+    
+  # Logs - Jenkins needs to access logs of pods for monitoring
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get", "list"]
